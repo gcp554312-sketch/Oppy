@@ -3,33 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şoppy | Sosyal Medya Hizmetleri</title>
+    <title>Şoppy | Sosyal Medya</title>
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; }
+        body { background: #0f172a; color: white; font-family: sans-serif; margin: 0; padding: 10px; }
         .container { max-width: 500px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: #6366f1; }
+        .auth-btn { background: #6366f1; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
         
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #334155; }
-        .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .auth-btns button { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
-
-        /* Ana Kartlar */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
-        .platform-card { background: var(--card); padding: 20px; border-radius: 15px; text-align: center; border: 2px solid #334155; cursor: pointer; transition: 0.3s; }
-        .platform-card img { width: 100%; max-width: 90px; border-radius: 12px; display: block; margin: 0 auto 10px; }
-        .platform-card:hover { border-color: var(--primary); }
-
-        /* Alt Seçenekler */
-        .sub-grid { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .sub-btn { background: #334155; border: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .sub-btn:hover { background: var(--primary); }
-
-        /* Fiyat Tablosu */
-        .price-container { background: white; color: #1e293b; padding: 20px; border-radius: 12px; display: none; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .platform-card { background: #1e293b; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; border: 2px solid #334155; }
+        .platform-card img { width: 100%; height: 80px; object-fit: contain; border-radius: 8px; }
+        
+        .sub-grid { display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .sub-btn { background: #334155; border: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; }
+        
+        /* Modal Stili */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); padding: 20px; box-sizing: border-box; }
+        .modal-content { background: #1e293b; padding: 20px; border-radius: 15px; margin-top: 50px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: none; box-sizing: border-box; }
+        
+        .price-box { background: white; color: #1e293b; padding: 15px; border-radius: 10px; display: none; }
         table { width: 100%; border-collapse: collapse; }
-        th { border-bottom: 2px solid #e2e8f0; padding: 10px; text-align: left; }
-        td { border-bottom: 1px solid #f1f5f9; padding: 10px; }
+        td { padding: 8px; border-bottom: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -37,62 +33,62 @@
 <div class="container">
     <div class="header">
         <div class="logo">Şoppy</div>
-        <div class="auth-btns">
-            <button onclick="alert('Giriş sistemi için veritabanı aktif edilmelidir.')">Giriş/Kayıt</button>
-        </div>
+        <button class="auth-btn" onclick="openModal()">Giriş/Kayıt</button>
     </div>
 
     <div class="main-grid">
-        <div class="platform-card" onclick="showSubs('insta')">
+        <div class="platform-card" onclick="showSub('insta')">
             <img src="modern-badge-logo-instagram-icon_578229-124.jpg" alt="Instagram">
             Instagram
         </div>
-        <div class="platform-card" onclick="showSubs('tiktok')">
+        <div class="platform-card" onclick="showSub('tiktok')">
             <img src="DgtQSxAYAHv52vo69JGcKB.jpg" alt="TikTok">
             TikTok
         </div>
     </div>
 
-    <div id="insta" class="sub-grid">
-        <button class="sub-btn" onclick="showPrice('insta_takipci')">Takipçi</button>
-        <button class="sub-btn" onclick="showPrice('insta_begeni')">Beğeni</button>
-        <button class="sub-btn" onclick="showPrice('insta_yorum')">Yorum</button>
-        <button class="sub-btn" onclick="showPrice('insta_izlenme')">İzlenme</button>
-    </div>
+    <div id="insta" class="sub-grid"><button class="sub-btn" onclick="price('insta_takipci')">Takipçi</button><button class="sub-btn" onclick="price('insta_begeni')">Beğeni</button><button class="sub-btn" onclick="price('insta_yorum')">Yorum</button><button class="sub-btn" onclick="price('insta_izlenme')">İzlenme</button></div>
+    <div id="tiktok" class="sub-grid"><button class="sub-btn" onclick="price('tiktok_takipci')">Takipçi</button><button class="sub-btn" onclick="price('tiktok_begeni')">Beğeni</button><button class="sub-btn" onclick="price('tiktok_izlenme')">İzlenme</button></div>
 
-    <div id="tiktok" class="sub-grid">
-        <button class="sub-btn" onclick="showPrice('tiktok_takipci')">Takipçi</button>
-        <button class="sub-btn" onclick="showPrice('tiktok_begeni')">Beğeni</button>
-        <button class="sub-btn" onclick="showPrice('tiktok_izlenme')">İzlenme</button>
-    </div>
+    <div id="price-box" class="price-box"><table id="table"></table></div>
+</div>
 
-    <div id="price-box" class="price-container">
-        <table id="price-table"></table>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Kayıt Ol</h2>
+        <input id="email" placeholder="E-posta" type="email">
+        <input id="pass" placeholder="Şifre" type="password">
+        <button class="sub-btn" style="width:100%" onclick="auth()">Tamam</button>
+        <button class="sub-btn" style="width:100%; background:red" onclick="closeModal()">İptal</button>
     </div>
 </div>
 
 <script>
-    const data = {
-        insta_takipci: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 200</td><td>120 TL</td></tr>`,
-        insta_begeni: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 250</td><td>50 TL</td></tr>`,
-        insta_yorum: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>10 Yorum</td><td>25 TL</td></tr>`,
-        insta_izlenme: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>5.000 İzlenme</td><td>30 TL</td></tr>`,
-        tiktok_takipci: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 200</td><td>120 TL</td></tr>`,
-        tiktok_begeni: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>250 Beğeni</td><td>50 TL</td></tr>`,
-        tiktok_izlenme: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>5.000 İzlenme</td><td>25 TL</td></tr>`
+    const db = {
+        insta_takipci: `<tr><td>200 Yabancı</td><td>120 TL</td></tr><tr><td>100 Türk</td><td>75 TL</td></tr>`,
+        insta_begeni: `<tr><td>250 Yabancı</td><td>50 TL</td></tr><tr><td>250 Türk</td><td>75 TL</td></tr>`,
+        insta_yorum: `<tr><td>10 Yorum</td><td>25 TL</td></tr><tr><td>500 Yorum</td><td>730 TL</td></tr>`,
+        insta_izlenme: `<tr><td>5000 İzlenme</td><td>30 TL</td></tr><tr><td>25000 İzlenme</td><td>150 TL</td></tr>`,
+        tiktok_takipci: `<tr><td>200 Yabancı</td><td>120 TL</td></tr>`,
+        tiktok_begeni: `<tr><td>250 Beğeni</td><td>50 TL</td></tr><tr><td>10000 Beğeni</td><td>225 TL</td></tr>`,
+        tiktok_izlenme: `<tr><td>5000 İzlenme</td><td>25 TL</td></tr><tr><td>50000 İzlenme</td><td>240 TL</td></tr>`
     };
 
-    function showSubs(id) {
-        document.getElementById('insta').style.display = 'none';
-        document.getElementById('tiktok').style.display = 'none';
-        document.getElementById('price-box').style.display = 'none';
-        document.getElementById(id).style.display = 'grid';
-    }
-
-    function showPrice(key) {
-        document.getElementById('price-table').innerHTML = data[key];
-        document.getElementById('price-box').style.display = 'block';
+    function showSub(id) { document.querySelectorAll('.sub-grid').forEach(e => e.style.display = 'none'); document.getElementById(id).style.display = 'grid'; }
+    function price(k) { document.getElementById('table').innerHTML = db[k]; document.getElementById('price-box').style.display = 'block'; }
+    function openModal() { document.getElementById('modal').style.display = 'block'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function auth() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('pass').value;
+        if(localStorage.getItem('email')) {
+            if(localStorage.getItem('email') == e && localStorage.getItem('pass') == p) { alert('Giriş Başarılı!'); closeModal(); }
+            else { alert('Hesabı göremedim! Hatalı bilgiler.'); }
+        } else {
+            localStorage.setItem('email', e); localStorage.setItem('pass', p); alert('Kayıt Başarılı!'); closeModal();
+        }
     }
 </script>
 </body>
-</html>
+            </html>
+            
