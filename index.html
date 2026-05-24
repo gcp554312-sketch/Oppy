@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Şoppy | Sosyal Medya Hizmetleri</title>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; text-align: center; }
+        .logo-text { font-size: 3rem; font-weight: 800; color: #6366f1; margin: 20px 0; }
+        
+        /* Görsel Kartları - İkonlu Profesyonel Görünüm */
+        .main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .platform-card { background: #1e293b; padding: 30px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: 2px solid #334155; }
+        .platform-card:hover { border-color: #6366f1; transform: translateY(-5px); }
+        .platform-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; }
+        .platform-card h2 { margin: 0; }
+
+        /* Alt Hizmet Seçenekleri */
+        .sub-grid { display: none; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 40px; }
+        .sub-card { background: #334155; padding: 20px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .sub-card:hover { background: #6366f1; }
+
+        .price-section { background: white; color: #1e293b; padding: 25px; border-radius: 15px; margin-top: 40px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-text">Şoppy</div>
+
+    <div class="main-grid">
+        <div class="platform-card" onclick="toggleSub('insta-subs')">
+            <img src="modern-badge-logo-instagram-icon_578229-124.jpg" alt="Instagram">
+            <h2>Instagram</h2>
+        </div>
+        <div class="platform-card" onclick="toggleSub('tiktok-subs')">
+            <img src="DgtQSxAYAHv52vo69JGcKB.jpg" alt="TikTok">
+            <h2>TikTok</h2>
+        </div>
+    </div>
+
+    <div id="insta-subs" class="sub-grid">
+        <div class="sub-card" onclick="showPrices('insta_takipci')">Takipçi</div>
+        <div class="sub-card" onclick="showPrices('insta_begeni')">Beğeni</div>
+        <div class="sub-card" onclick="showPrices('insta_yorum')">Yorum</div>
+        <div class="sub-card" onclick="showPrices('insta_izlenme')">İzlenme</div>
+    </div>
+
+    <div id="tiktok-subs" class="sub-grid">
+        <div class="sub-card" onclick="showPrices('tiktok_takipci')">Takipçi</div>
+        <div class="sub-card" onclick="showPrices('tiktok_begeni')">Beğeni</div>
+        <div class="sub-card" onclick="showPrices('tiktok_izlenme')">İzlenme</div>
+    </div>
+
+    <div id="price-section" class="price-section">
+        <table id="price-table" style="width:100%; border-collapse: collapse;"></table>
+    </div>
+</div>
+
+<script>
+    const db = {
+        insta_takipci: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 200</td><td>120 TL</td></tr><tr><td>Türk 100</td><td>75 TL</td></tr>`,
+        insta_begeni: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 250</td><td>50 TL</td></tr><tr><td>Türk 250</td><td>75 TL</td></tr>`,
+        insta_yorum: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>10 Yorum</td><td>25 TL</td></tr><tr><td>500 Yorum</td><td>730 TL</td></tr>`,
+        insta_izlenme: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>5.000 İzlenme</td><td>30 TL</td></tr><tr><td>25.000 İzlenme</td><td>150 TL</td></tr>`,
+        tiktok_takipci: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>Yabancı 200</td><td>120 TL</td></tr>`,
+        tiktok_begeni: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>250 Beğeni</td><td>50 TL</td></tr><tr><td>10000 Beğeni</td><td>225 TL</td></tr>`,
+        tiktok_izlenme: `<tr><th>Paket</th><th>Fiyat</th></tr><tr><td>5.000 İzlenme</td><td>25 TL</td></tr><tr><td>50.000 İzlenme</td><td>240 TL</td></tr>`
+    };
+
+    function toggleSub(id) {
+        document.querySelectorAll('.sub-grid').forEach(el => el.style.display = 'none');
+        document.getElementById(id).style.display = 'grid';
+        document.getElementById('price-section').style.display = 'none';
+    }
+
+    function showPrices(key) {
+        document.getElementById('price-table').innerHTML = db[key];
+        document.getElementById('price-section').style.display = 'block';
+    }
+</script>
+</body>
+</html>
